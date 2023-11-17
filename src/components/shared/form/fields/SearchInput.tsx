@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition"
@@ -53,6 +53,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
     }
   }
 
+  let timeoutId: any = null
+
+  const textareaRef = useRef<any>()
+  const { ref, ...rest } = register(name)
+
   return (
     <div className="flex items-center">
       <label htmlFor="simple-search" className="sr-only">
@@ -76,7 +81,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
             />
           </svg>
         </div>
-        <input
+        {/* <input
           type="text"
           id={id}
           // value={transcript}
@@ -84,6 +89,45 @@ const SearchInput: React.FC<SearchInputProps> = ({
           placeholder="Search Cases, Judgement..."
           {...register(name)}
           required
+        /> */}
+
+        <textarea
+          id={id}
+          // rows={1}
+          // minLength={}
+          // rows={2} // Set the maximum number of rows to 2
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xs lg:text-sm rounded-s-xl focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search Cases, Judgement..."
+          // {...register(name)}
+          ref={(e) => {
+            ref(e)
+            textareaRef.current = e
+          }}
+          {...rest}
+          required
+          onInput={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            if (textareaRef && textareaRef.current) {
+              const textarea = textareaRef.current
+
+              // Set the maximum number of rows to 2
+              const maxRows = 2
+
+              // Set the minimum number of rows to 1
+              const minRows = 1
+              console.log(textarea.clientHeight, textarea.clientHeight)
+
+              // Calculate the number of rows based on content height
+              const rows = Math.min(
+                maxRows,
+                Math.max(
+                  minRows,
+                  Math.ceil(textarea.scrollHeight / textarea.clientHeight)
+                )
+              )
+
+              textarea.rows = rows
+            }
+          }}
         />
 
         <button

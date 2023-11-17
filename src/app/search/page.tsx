@@ -50,7 +50,7 @@ export default function CaseDetail() {
                   onClick={() => {}}
                 >
                   <img
-                    className="w-6 h-6 rounded-full mr-2"
+                    className="w-6 h-6 rounded-full hidden md:inline-block mr-2"
                     src="help-circle.svg"
                     alt="question"
                   />
@@ -63,13 +63,13 @@ export default function CaseDetail() {
                   onClick={() => {}}
                 >
                   <img
-                    className="md:w-6 md:h-6 rounded-full md:mr-2"
+                    className="md:w-6 md:h-6 rounded-full hidden md:inline-block md:mr-2"
                     src="search.svg"
                     alt="search result"
                   />
                   <section className="flex divide-x">
                     <section className="flex-1 p-1 md:p-4">
-                      <p className="flex-1 text-xs text-gray-500 dark:text-gray-400 text-justify">
+                      <p className="flex-1 text-xs text-gray-500 dark:text-gray-400 ">
                         {item?.answer}
                       </p>
                     </section>
@@ -77,35 +77,31 @@ export default function CaseDetail() {
                       <h6 className="mb-2 text-xs font-semibold text-gray-900 dark:text-white">
                         Related Results:
                       </h6>
-                      <ul className="max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
-                        <ul className="space-y-2 text-gray-500 dark:text-gray-400">
-                          {topSearches.map((search) => (
-                            <li key={search.id}>
-                              <Popover>
-                                <div className="flex">
-                                  <h6 className="md:mb-0.5 text-xs font-medium text-gray-900 dark:text-white  flex-1">
-                                    {search.title}
-                                    <span className="text-xs font-normal text-gray-700 ms-1">
-                                      (Accuracy: 80%)
-                                    </span>
-                                  </h6>
-                                  <span className="text-xs font-normal text-gray-700">
-                                    Citations Count: 10
-                                  </span>
-                                </div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                  {search.description}
-                                </p>
-                              </Popover>
+                      <ul className="max-w-md space-y-1 divide-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+                        {/* <ul className="space-y-3  text-gray-500 dark:text-gray-400"> */}
+                        {topSearches.map((search) => (
+                          <li key={search.id}>
+                            <Popover>
+                              <h6 className="md:mb-0.5 text-xs font-medium text-gray-900 dark:text-white  flex-1">
+                                {search.title}
+                              </h6>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                {search.description}
+                              </p>
+                            </Popover>
 
-                              <Popover>
-                                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-xl dark:bg-blue-900 dark:text-blue-300">
-                                  {search.title}
-                                </span>
-                              </Popover>
-                            </li>
-                          ))}
-                        </ul>
+                            <Popover>
+                              <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-xl dark:bg-blue-900 dark:text-blue-300">
+                                {search.title}
+                              </span>
+                            </Popover>
+                            <div className="flex flex-col md:flex-row justify-between text-xs font-medium text-gray-700">
+                              <small>Similarity: 80%</small>
+                              <small>Citations: 10</small>
+                            </div>
+                          </li>
+                        ))}
+                        {/* </ul> */}
                       </ul>
                     </section>
                   </section>

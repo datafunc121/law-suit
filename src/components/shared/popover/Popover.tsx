@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React, { ReactNode, useState } from "react"
 
 interface PopoverProps {
@@ -46,8 +47,8 @@ const Popover: React.FC<PopoverProps> = ({ children }) => {
                 unitary parliamentary republic with Rome as its capital and
                 largest city.
               </p>
-              <a
-                href="#"
+              <Link
+                href="/case"
                 className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
               >
                 Read more{" "}
@@ -66,7 +67,7 @@ const Popover: React.FC<PopoverProps> = ({ children }) => {
                     d="m1 9 4-4-4-4"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

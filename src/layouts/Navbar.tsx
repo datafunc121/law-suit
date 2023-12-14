@@ -11,14 +11,14 @@ const Navbar = () => {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-2 px-4 md:px-24">
         <Link href="/" className="flex items-center">
           <img
-            src="/logo.png"
+            src="/logo.svg"
             // className="h-4 mr-3"
-            alt="VerdictWise Logo"
+            alt="Case Polaris Logo"
             height={60}
             width={60}
           />
           <span className="self-center text-lg lg:text-xl font-semibold whitespace-nowrap dark:text-white">
-            VerdictWise
+            Case Polaris
           </span>
         </Link>
         <div className="flex-1"></div>

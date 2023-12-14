@@ -2,12 +2,14 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/layouts/Navbar"
+import Provider from "@/layouts/Provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Law Dictionary",
-  description: "Law Dictionary is ChatBot for ledgal documents",
+  title: "Case Polaris",
+  description:
+    "Guiding precise legal research with pioneering contextual clarity",
 }
 
 export default function RootLayout({
@@ -18,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
+        <Provider>
+          <Navbar />
+          {children}
+        </Provider>
       </body>
     </html>
   )

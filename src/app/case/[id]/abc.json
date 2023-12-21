@@ -1,0 +1,12 @@
+{
+  "question": "string",
+  "answer": "string",
+  "relatedCases": [
+    {
+      "title": "string",
+      "summary": "string",
+      "citationCount": "integer",
+      "similarity": "integer"
+    }
+  ]
+}

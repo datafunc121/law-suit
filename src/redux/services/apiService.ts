@@ -8,10 +8,22 @@ import { setAuth, logout } from "../features/authSlice"
 import { Mutex } from "async-mutex"
 
 const mutex = new Mutex()
+
+// Function to get and set the access token from some secure storage
+const getAccessToken = () => {
+  // Use your own logic to retrieve the access token from storage
+  return localStorage.getItem("access_token")
+}
+
+const setAccessToken = (token: string) => {
+  // Use your own logic to securely store the access token
+  localStorage.setItem("access_token", token)
+}
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.NEXT_PUBLIC_HOST}/api`,
-  credentials: "include",
+  baseUrl: `https://api.casepolaris.com/api`,
 })
+
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -24,18 +36,28 @@ const baseQueryWithReauth: BaseQueryFn<
     if (!mutex.isLocked()) {
       const release = await mutex.acquire()
       try {
-        const refreshResult = await baseQuery(
+        const refreshResult: any = await baseQuery(
           {
-            url: "/jwt/refresh/",
+            url: "/law/auth/jwt/refresh/",
             method: "POST",
+            body: { refresh: localStorage.getItem("refresh_token") },
           },
           api,
           extraOptions
         )
-        if (refreshResult.data) {
-          api.dispatch(setAuth())
 
-          result = await baseQuery(args, api, extraOptions)
+        if (refreshResult?.data && refreshResult.data?.access) {
+          // Update the access token and store it securely
+          setAccessToken(refreshResult?.data?.access)
+          api.dispatch(setAuth())
+          // Retry the original request with the new access token
+          result = await baseQuery(args, api, {
+            ...extraOptions,
+            headers: {
+              // ...extraOptions?.headers,
+              Authorization: `JWT ${refreshResult.data.access}`,
+            },
+          })
         } else {
           api.dispatch(logout())
         }
@@ -55,3 +77,8 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({}),
 })
+
+// Additional utility function to get the current access token
+export const getAccessTokenFromStorage = () => {
+  return getAccessToken()
+}

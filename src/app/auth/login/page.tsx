@@ -7,31 +7,35 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
 import Link from "next/link"
+import { useLoginMutation } from "@/redux/features/authApiSlice"
+import { useAppDispatch } from "@/redux/hooks"
+import { setAuth } from "@/redux/features/authSlice"
 
 const Login = () => {
   const router = useRouter()
-  const [isLoading, setLoading] = useState(false)
+  // const [isLoading, setLoading] = useState(false)
+  const dispatch = useAppDispatch()
+  const [login, { isLoading }] = useLoginMutation()
 
   const onLogin = async (data: any) => {
-    router.push("/")
-
     try {
-      setLoading(true)
-      const response: any = axios.post(
-        "https://stonecloud.pk:8889/api/auth/login",
-        data
-      )
-      const { token, user, msg } = response.data
-      console.log("token", token)
-      console.log("user", user)
-      console.log("msg", msg)
-      // toast.success("Successfully Loggedin!")
+      const response = await login({
+        email: data.email,
+        password: data.password,
+      }).unwrap()
+
+      // Store tokens securely
+      localStorage.setItem("access_token", response.access)
+      localStorage.setItem("refresh_token", response.refresh)
+
+      // Dispatch setAuth action
+      dispatch(setAuth())
+
+      console.log("Login Successful")
       router.push("/")
-    } catch (err) {
-      console.log("error", err)
-      // toast.success(JSON.stringify(err))
-    } finally {
-      setLoading(false)
+    } catch (error) {
+      console.error("Login Failed", error)
+      // Handle login failure
     }
   }
 

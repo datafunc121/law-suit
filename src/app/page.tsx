@@ -57,7 +57,6 @@ export default function Home() {
           <SearchForm containerStyles="" />
         </div>
         {/* Search Form */}
-
         {/* Top Search Grid  */}
         <div className="mt-8 md:mt-10 lg:w-[65%] mx-auto">
           <Grid

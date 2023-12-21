@@ -1,10 +1,14 @@
 "use client"
 
+import { useAppSelector } from "@/redux/hooks"
 import Link from "next/link"
 import { useState } from "react"
 
 const Navbar = () => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth)
   const [userMenu, setUserMenu] = useState(false)
+
+  if (!isAuthenticated) return null
 
   return (
     <nav className="fixed w-full bg-white dark:bg-black">
@@ -40,7 +44,6 @@ const Navbar = () => {
             />
           </button>
 
-          {/* <!-- Dropdown menu --> */}
           <div
             // className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
             className={`z-50 ${
